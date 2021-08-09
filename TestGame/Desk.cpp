@@ -1,6 +1,7 @@
 #include "Desk.h"
 #include "WhiteFigure.h"
 #include "BlackFigure.h"
+#include <iostream>
 
 
 Desk::Desk(Texture& TExtureForWhite, Texture& TExtureForBlack)
@@ -77,4 +78,38 @@ Figure* Desk::GetFigureInCoordinates(int X, int Y)
 		}
 	}
 	return nullptr;
+}
+
+void Desk::MouseClick(int X, int Y)
+{
+	MouseX = static_cast<int>(ceil((X - 100) / 100));
+	MouseY = static_cast<int>(ceil((Y - 100) / 100));
+
+	FigureUnderMouse = GetFigureInCoordinates(MouseX, MouseY);
+	std::cout << FigureUnderMouse << '\n';
+	if (FigureUnderMouse->GetName() == "White")
+	{
+		if (ActiveFigure)
+		{
+			ActiveFigure->UnselectFigure();
+			ActiveFigure = FigureUnderMouse;
+			ActiveFigure->SelectFigure();
+		}
+		else
+		{
+			ActiveFigure = FigureUnderMouse;
+			ActiveFigure->SelectFigure();
+		}
+	}
+
+}
+
+void Desk::ClearSelection()
+{
+	if (ActiveFigure)
+	{
+		ActiveFigure->UnselectFigure();
+	}
+	ActiveFigure = nullptr;
+
 }

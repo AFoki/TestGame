@@ -21,10 +21,7 @@ int main()
     DeskSprite.move(100.0f, 100.0f);
     Desk MyDesk(WhiteFigureTexture, BlackFigureTexture);
     Vector2i MousePosition;
-    Figure* ActiveFigure = nullptr;
-    Figure* FigureUnderMouse = nullptr;
-    int ActiveFigurePositionX;
-    int ActiveFigurePositionY;
+
 // Processor
     while (window.isOpen())
     {
@@ -46,38 +43,11 @@ int main()
                     if (MousePosition.x < 100 || MousePosition.y < 100 ||
                         MousePosition.x > 900 || MousePosition.y > 900) continue;
 
-                    ActiveFigurePositionX = ceil((MousePosition.x - 100) / 100);
-                    ActiveFigurePositionY = ceil((MousePosition.y - 100) / 100);
-
-                    // Дебаг
-                    std::cout << ActiveFigurePositionX << '\t' << ActiveFigurePositionY << '\n';
-
-                    // Замена активной фигуры
-                    FigureUnderMouse = MyDesk.GetFigureInCoordinates(ActiveFigurePositionX, ActiveFigurePositionY);
-                    std::cout << FigureUnderMouse << '\n';
-                    if (FigureUnderMouse)
-                    {
-                        if (ActiveFigure)
-                        {
-                            ActiveFigure->UnselectFigure();
-                            ActiveFigure = FigureUnderMouse;
-                            ActiveFigure->SelectFigure();
-                        }
-                        else
-                        {
-                            ActiveFigure = FigureUnderMouse;
-                            ActiveFigure->SelectFigure();
-                        }
-                    }
-                    
+                    MyDesk.MouseClick(MousePosition.x, MousePosition.y);
                 }
                 else
                 {
-                    if (ActiveFigure)
-                    {
-                        ActiveFigure->UnselectFigure();
-                    }
-                    ActiveFigure = nullptr;
+                    MyDesk.ClearSelection();
                 }
             }
         }

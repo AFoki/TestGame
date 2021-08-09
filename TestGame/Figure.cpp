@@ -59,3 +59,8 @@ bool Figure::GetIsActive()
 {
 	return bIsActive;
 }
+
+std::string Figure::GetName()
+{
+	return Name;
+}

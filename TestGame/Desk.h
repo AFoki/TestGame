@@ -23,10 +23,17 @@ private:
 	};
 	Cell Field[8][8];
 	Figure* FiguresArray[18];
+	int MouseX;
+	int MouseY;
+	Figure* ActiveFigure = nullptr;
+	Figure* FigureUnderMouse = nullptr;
+
 public:
 	Desk(Texture& TExtureForWhite, Texture& TExtureForBlack);
 	~Desk();
 	void DrawDesk(RenderWindow &Window);
 	Figure* GetFigureInCoordinates(int X, int Y);
+	void MouseClick(int X, int Y);
+	void ClearSelection();
 };
 

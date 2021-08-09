@@ -12,11 +12,11 @@ private:
     Sprite ActiveSprite;
     Vector2f SpriteOffset;
     bool bIsActive{ false };
-    int XPosition;
-    int YPosition;
-    
+    float XPosition;
+    float YPosition;
 protected:
     Figure(const Texture& NewTexture);
+    std::string Name;
 public:
     virtual ~Figure();
     void SelectFigure();
@@ -27,5 +27,6 @@ public:
     void DrawFigure(RenderWindow& window);
     bool CheckPosition(int X, int Y);
     bool GetIsActive();
+    std::string GetName();
 };
 

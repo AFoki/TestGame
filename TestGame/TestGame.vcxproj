@@ -146,12 +146,14 @@
     <ClCompile Include="Desk.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PossibleMovementCell.cpp" />
     <ClCompile Include="WhiteFigure.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackFigure.h" />
     <ClInclude Include="Desk.h" />
     <ClInclude Include="Figure.h" />
+    <ClInclude Include="PossibleMovementCell.h" />
     <ClInclude Include="WhiteFigure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

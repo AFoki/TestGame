@@ -4,6 +4,7 @@
 WhiteFigure::WhiteFigure(Texture& NewTexture) : Figure(NewTexture)
 {
 	std::cout << "White figure created\n";
+	Name = "White";
 }
 
 WhiteFigure::~WhiteFigure()
