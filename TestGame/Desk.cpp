@@ -9,9 +9,6 @@
 
 Desk::Desk(Texture& TExtureForWhite, Texture& TExtureForBlack)
 {
-	WhiteCellTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\WhiteCell.png");
-	DarkCellTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\DarkCell.png");
-	ActiveCellTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\PossibleCell.png");
 	PossibleMoveTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\PossibleCell.png");
 	int IdInArray{ 0 };
 	for (int i = 0; i < 8; i++)
@@ -49,23 +46,6 @@ Desk::~Desk()
 
 void Desk::DrawDesk(RenderWindow& Window)
 {
-	//Sprite Temp;
-	//float MoveX;
-	//float MoveY;
-	//for (int i = 0; i < 8; i++)
-	//{
-	//	for (int j = 0; j < 8; j++)
-	//	{
-	//		if (Field[i][j].FigureInCell)
-	//		{
-	//			Temp = Field[i][j].FigureInCell->GetSprite();
-	//			MoveX = 100 + 10 * (j + 1) + 90 * j;
-	//			MoveY = 100 + 10 * (i + 1) + 90 * i;
-	//			Temp.move(MoveX, MoveY);
-	//			Window.draw(Temp);
-	//		}
-	//	}
-	//}
 	for (auto CurrentFigure : FiguresArray)
 	{
 		CurrentFigure->DrawFigure(Window);
@@ -105,6 +85,8 @@ void Desk::MouseClick(int X, int Y)
 
 	FigureUnderMouse = GetFigureInCoordinates(MouseX, MouseY);
 	std::cout << FigureUnderMouse << '\n';
+	if (!FigureUnderMouse) return;
+
 	switch (FigureUnderMouse->GetName())
 	{
 	case FigureName::WHITE:
@@ -125,8 +107,8 @@ void Desk::MouseClick(int X, int Y)
 	case FigureName::POSSIBLETOMOVE:
 		ActiveFigure->SetPosition(FigureUnderMouse->GetPosition());
 		ClearPossibleMove();
-		break;
-	default:
+		ClearSelection();
+		//AIMove(); TODO
 		break;
 	}
 	
