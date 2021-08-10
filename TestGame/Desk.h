@@ -7,7 +7,6 @@ class Desk
 private:
 	Texture WhiteCellTexture;
 	Texture DarkCellTexture;
-	Texture ActiveCellTexture;
 	Texture PossibleMoveTexture;
 
 	class Cell
