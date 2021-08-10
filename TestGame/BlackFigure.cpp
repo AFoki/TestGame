@@ -4,7 +4,7 @@
 BlackFigure::BlackFigure(Texture& NewTexture) : Figure(NewTexture)
 {
 	std::cout << "Black figure created\n";
-	Name = "Black";
+	Name = FigureName::BLACK;
 }
 
 BlackFigure::~BlackFigure()

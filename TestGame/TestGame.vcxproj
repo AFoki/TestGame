@@ -153,6 +153,7 @@
     <ClInclude Include="BlackFigure.h" />
     <ClInclude Include="Desk.h" />
     <ClInclude Include="Figure.h" />
+    <ClInclude Include="Types.h" />
     <ClInclude Include="PossibleMovementCell.h" />
     <ClInclude Include="WhiteFigure.h" />
   </ItemGroup>

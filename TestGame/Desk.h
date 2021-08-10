@@ -1,10 +1,6 @@
 #pragma once
 #include "Figure.h"
 #include <SFML/Graphics.hpp>
-struct DrawableFigure
-{
-
-};
 
 class Desk
 {
@@ -12,6 +8,7 @@ private:
 	Texture WhiteCellTexture;
 	Texture DarkCellTexture;
 	Texture ActiveCellTexture;
+	Texture PossibleMoveTexture;
 
 	class Cell
 	{
@@ -23,11 +20,9 @@ private:
 	};
 	Cell Field[8][8];
 	Figure* FiguresArray[18];
-	int MouseX;
-	int MouseY;
+	Figure* PossibleMovements[4];
 	Figure* ActiveFigure = nullptr;
 	Figure* FigureUnderMouse = nullptr;
-
 public:
 	Desk(Texture& TExtureForWhite, Texture& TExtureForBlack);
 	~Desk();
@@ -35,5 +30,8 @@ public:
 	Figure* GetFigureInCoordinates(int X, int Y);
 	void MouseClick(int X, int Y);
 	void ClearSelection();
+private:
+	void CalculatePossibleMove(const Figure* FigureToCalculate);
+	void ClearPossibleMove();
 };
 

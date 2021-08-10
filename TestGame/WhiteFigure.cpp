@@ -1,10 +1,11 @@
 #include "WhiteFigure.h"
+#include "Types.h"
 #include <iostream>
 
 WhiteFigure::WhiteFigure(Texture& NewTexture) : Figure(NewTexture)
 {
 	std::cout << "White figure created\n";
-	Name = "White";
+	Name = FigureName::WHITE;
 }
 
 WhiteFigure::~WhiteFigure()
