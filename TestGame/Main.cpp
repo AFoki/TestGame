@@ -3,9 +3,13 @@
 #include "WhiteFigure.h"
 #include "BlackFigure.h"
 #include "Desk.h"
+#include "Types.h"
+#include <Windows.h>
 #include <iostream>
 
 using namespace sf;
+
+
 
 int main()
 {
@@ -19,9 +23,14 @@ int main()
     BlackFigureTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\FigureBlack.png");
     Sprite DeskSprite(DeskTexture);
     DeskSprite.move(100.0f, 100.0f);
-    Desk MyDesk(WhiteFigureTexture, BlackFigureTexture);
     Vector2i MousePosition;
-
+    GameStates CurrentState = GameStates::GAME;
+    Text Message;
+    Message.setCharacterSize(100);
+    Message.setString("You Lose");
+#pragma warning(suppress : 4996)
+    Message.setColor(Color::Red);
+    Desk MyDesk(WhiteFigureTexture, BlackFigureTexture, CurrentState);
 // Processor
     while (window.isOpen())
     {
@@ -50,17 +59,30 @@ int main()
                     MyDesk.ClearSelection();
                 }
             }
+            if (CurrentState == GameStates::LOSE)
+            {
+                std::cout << "\n\tYou Lose\n";
+                Message.setString("You Lose");
+                window.draw(Message);
+                Sleep(5000);
+                window.close();
+            }
+            if (CurrentState == GameStates::WIN)
+            {
+                std::cout << "\n\tYou Win\n";
+                Message.setString("You Win");
+                window.draw(Message);
+                Sleep(5000);
+                window.close();
+            }
         }
 
-        
 
         window.clear(Color::Green);
         window.draw(DeskSprite);
         MyDesk.DrawDesk(window);
         window.display();
     }
-
-// Memory cleaning
 
     return 0;
 }

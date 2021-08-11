@@ -7,3 +7,9 @@ enum class FigureName
     BLACK,
     POSSIBLETOMOVE
 };
+enum class GameStates
+{
+    GAME,
+    WIN,
+    LOSE
+};

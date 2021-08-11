@@ -9,8 +9,9 @@
 
 
 
-Desk::Desk(Texture& TExtureForWhite, Texture& TExtureForBlack)
+Desk::Desk(Texture& TExtureForWhite, Texture& TExtureForBlack, GameStates& BasicState)
 {
+	CurrentState = &BasicState;
 	PossibleMoveTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\PossibleCell.png");
 	int IdInArray{ 0 };
 	for (int i = 0; i < 8; i++)
@@ -32,6 +33,14 @@ Desk::Desk(Texture& TExtureForWhite, Texture& TExtureForBlack)
 		}
 	}
 	InitAI();
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			std::cout << Field[i][j].CellWeght << ' ';
+		}
+		std::cout << '\n';
+	}
 }
 
 Desk::~Desk()
@@ -108,10 +117,10 @@ void Desk::MouseClick(int X, int Y)
 		CalculatePossibleMove(ActiveFigure);
 		break;
 	case FigureName::POSSIBLETOMOVE:
-		//ActiveFigure->SetPosition(FigureUnderMouse->GetPosition());
 		FigureMove(ActiveFigure, FigureUnderMouse->GetPosition());
 		ClearPossibleMove();
 		ClearSelection();
+		AIMove();
 		break;
 	}
 }
@@ -124,6 +133,45 @@ void Desk::ClearSelection()
 	}
 	ActiveFigure = nullptr;
 	ClearPossibleMove();
+}
+
+void Desk::CheckWinLose()
+{
+	Figure* CurrentFigure;
+	int CountOfFigures = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			CurrentFigure = GetFigureInCoordinates(j, i);
+			if (CurrentFigure && CurrentFigure->GetName() == FigureName::BLACK)
+			{
+				CountOfFigures++;
+			}
+		}
+	}
+	if (CountOfFigures == 9)
+	{
+		*CurrentState = GameStates::LOSE;
+		return;
+	}
+	CountOfFigures = 0;
+	for (int i = 5; i < 8; i++)
+	{
+		for (int j = 5; j < 8; j++)
+		{
+			CurrentFigure = GetFigureInCoordinates(j, i);
+			if (CurrentFigure && CurrentFigure->GetName() == FigureName::WHITE)
+			{
+				CountOfFigures++;
+			}
+		}
+	}
+	if (CountOfFigures == 9)
+	{
+		*CurrentState = GameStates::WIN;
+		return;
+	}
 }
 
 void Desk::CalculatePossibleMove(const Figure* FigureToCalculate)
@@ -151,6 +199,29 @@ void Desk::CalculatePossibleMove(const Figure* FigureToCalculate)
 	}
 }
 
+int Desk::CalculatePossibleMove(const Figure* FigureToCalculate, int& NumberOfMoves)
+{
+	NumberOfMoves = 0;
+	Vector2i FigurePosition{ FigureToCalculate->GetPosition() };
+	if (!GetFigureInCoordinates(FigurePosition.x - 1, FigurePosition.y) && FigurePosition.x > 0)
+	{
+		NumberOfMoves++;
+	}
+	if (!GetFigureInCoordinates(FigurePosition.x + 1, FigurePosition.y) && FigurePosition.x < 7)
+	{
+		NumberOfMoves++;
+	}
+	if (!GetFigureInCoordinates(FigurePosition.x, FigurePosition.y - 1) && FigurePosition.y > 0)
+	{
+		NumberOfMoves++;
+	}
+	if (!GetFigureInCoordinates(FigurePosition.x, FigurePosition.y + 1) && FigurePosition.y < 7)
+	{
+		NumberOfMoves++;
+	}
+	return NumberOfMoves;
+}
+
 void Desk::ClearPossibleMove()
 {
 	for (int i = 0; i < 4; i++)
@@ -169,11 +240,7 @@ void Desk::FigureMove(Figure* MovableFigure, const Vector2i& NewCoordinates)
 	MovableFigure->SetPosition(NewCoordinates);
 	Field[NewCoordinates.y][NewCoordinates.x].FigureInCell = MovableFigure;
 	Field[StartCoordinates.y][StartCoordinates.x].FigureInCell = nullptr;
-	if (MovableFigure->GetName() == FigureName::WHITE)
-	{
-		Sleep(1000);
-		AIMove();
-	}
+	CheckWinLose();
 }
 
 void Desk::InitAI()
@@ -190,7 +257,7 @@ void Desk::InitAI()
 			{
 				if (i == j)
 				{
-					Field[i][j].CellWeght = 0 - (2 * i + 2 * j);
+					Field[i][j].CellWeght = 0 - (3 * i + 3 * j);
 				}
 				else 
 				{
@@ -209,16 +276,25 @@ void Desk::InitAI()
 	Field[1][2].CellWeght = 70;
 	Field[2][1].CellWeght = 70;
 	Field[2][2].CellWeght = 60;
+
+	Field[7][7].CellWeght = -100;
+	Field[6][7].CellWeght = -90;
+	Field[7][6].CellWeght = -90;
+	Field[5][7].CellWeght = -80;
+	Field[6][6].CellWeght = -80;
+	Field[7][5].CellWeght = -80;
+	Field[5][6].CellWeght = -70;
+	Field[6][5].CellWeght = -70;
+	Field[5][5].CellWeght = -60;
 }
 
 void Desk::AIMove()
 {
-	//Sleep(1000);
 	int WorthDesk;
 	Vector2i Position;
 	std::map<int, std::pair<Figure*, Vector2i>> MovesVithWeight;
 
-	for (int i = 0; i < 18; i++)
+	for (int i = 9; i < 18; i++)
 	{
 		if (FiguresArray[i]->GetName() != FigureName::BLACK) continue;
 
@@ -248,6 +324,7 @@ void Desk::AIMove()
 int Desk::CalculateWorthOfDesk(Figure* MovableFigure, const Vector2i& NewCoordinates)
 {
 	int Worth = 0;
+	int NumberOfMovesToNeighbour;
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
@@ -257,6 +334,34 @@ int Desk::CalculateWorthOfDesk(Figure* MovableFigure, const Vector2i& NewCoordin
 				if (Field[i][j].FigureInCell == MovableFigure)
 				{
 					Worth += Field[NewCoordinates.y][NewCoordinates.x].CellWeght;
+					if (NewCoordinates.x < 7 && 
+						Field[NewCoordinates.y][NewCoordinates.x + 1].FigureInCell &&
+						Field[NewCoordinates.y][NewCoordinates.x + 1].FigureInCell->GetName() == FigureName::WHITE &&
+						CalculatePossibleMove(Field[NewCoordinates.y][NewCoordinates.x + 1].FigureInCell, NumberOfMovesToNeighbour) == 1)
+					{
+						return Worth = -1000;
+					}
+					if (NewCoordinates.x > 0 &&
+						Field[NewCoordinates.y][NewCoordinates.x - 1].FigureInCell &&
+						Field[NewCoordinates.y][NewCoordinates.x - 1].FigureInCell->GetName() == FigureName::WHITE &&
+						CalculatePossibleMove(Field[NewCoordinates.y][NewCoordinates.x - 1].FigureInCell, NumberOfMovesToNeighbour) == 1)
+					{
+						return Worth = -1000;
+					}
+					if (NewCoordinates.y < 7 &&
+						Field[NewCoordinates.y + 1][NewCoordinates.x].FigureInCell &&
+						Field[NewCoordinates.y + 1][NewCoordinates.x].FigureInCell->GetName() == FigureName::WHITE &&
+						CalculatePossibleMove(Field[NewCoordinates.y + 1][NewCoordinates.x].FigureInCell, NumberOfMovesToNeighbour) == 1)
+					{
+						return Worth = -1000;
+					}
+					if (NewCoordinates.y > 0 &&
+						Field[NewCoordinates.y - 1][NewCoordinates.x].FigureInCell &&
+						Field[NewCoordinates.y - 1][NewCoordinates.x].FigureInCell->GetName() == FigureName::WHITE &&
+						CalculatePossibleMove(Field[NewCoordinates.y - 1][NewCoordinates.x].FigureInCell, NumberOfMovesToNeighbour) == 1)
+					{
+						return Worth = -1000;
+					}
 				}
 				else
 				{
