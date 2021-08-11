@@ -177,6 +177,7 @@ void Desk::CheckWinLose()
 void Desk::CalculatePossibleMove(const Figure* FigureToCalculate)
 {
 	Vector2i FigurePosition{FigureToCalculate->GetPosition()};
+	// Проверка возможности сдвинуться в соседнюю клетку
 	if (!GetFigureInCoordinates(FigurePosition.x - 1, FigurePosition.y) && FigurePosition.x > 0)
 	{
 		PossibleMovements[0] = new PossibleMovementCell(PossibleMoveTexture);
@@ -203,6 +204,7 @@ int Desk::CalculatePossibleMove(const Figure* FigureToCalculate, int& NumberOfMo
 {
 	NumberOfMoves = 0;
 	Vector2i FigurePosition{ FigureToCalculate->GetPosition() };
+	// Проверка возможности сдвинуться в соседнюю клетку
 	if (!GetFigureInCoordinates(FigurePosition.x - 1, FigurePosition.y) && FigurePosition.x > 0)
 	{
 		NumberOfMoves++;
@@ -296,8 +298,7 @@ void Desk::AIMove()
 
 	for (int i = 9; i < 18; i++)
 	{
-		if (FiguresArray[i]->GetName() != FigureName::BLACK) continue;
-
+		// Проверка возможных направлений движения для ИИ
 		Position = FiguresArray[i]->GetPosition();
 
 		if (Position.x > 0 && Field[Position.y][Position.x - 1].FigureInCell == nullptr)
@@ -334,6 +335,7 @@ int Desk::CalculateWorthOfDesk(Figure* MovableFigure, const Vector2i& NewCoordin
 				if (Field[i][j].FigureInCell == MovableFigure)
 				{
 					Worth += Field[NewCoordinates.y][NewCoordinates.x].CellWeght;
+					// Проверка на возможность движения соседних белых фигур
 					if (NewCoordinates.x < 7 && 
 						Field[NewCoordinates.y][NewCoordinates.x + 1].FigureInCell &&
 						Field[NewCoordinates.y][NewCoordinates.x + 1].FigureInCell->GetName() == FigureName::WHITE &&
