@@ -9,10 +9,8 @@ private:
 	class Cell
 	{
 	public:
-		int XPosition;
-		int YPosition;
 		Figure* FigureInCell = nullptr;
-		bool bIsActive{ 0 };
+		int CellWeght;
 	};
 	Cell Field[8][8];
 	Figure* FiguresArray[18];
@@ -29,5 +27,10 @@ public:
 private:
 	void CalculatePossibleMove(const Figure* FigureToCalculate);
 	void ClearPossibleMove();
+	void FigureMove(Figure* MovableFigure, const Vector2i &NewCoordinates);
+	void InitAI();
+	void AIMove();
+	int CalculateWorthOfDesk(Figure* MovableFigure, const Vector2i& NewCoordinates);
+	int CheckMove(Figure* FigureToCheck, Vector2i& FigurePosition, int X, int Y, int& CurrentWorth, std::map<int, std::pair<Figure*, Vector2i>>& Statistic);
 };
 
