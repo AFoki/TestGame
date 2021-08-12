@@ -36,6 +36,9 @@
     <ClCompile Include="PossibleMovementCell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AIBasic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Figure.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AIBasic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

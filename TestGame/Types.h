@@ -1,5 +1,7 @@
 #pragma once
 
+class Figure;
+
 enum class FigureName
 {
     BASIC,
@@ -11,5 +13,13 @@ enum class GameStates
 {
     GAME,
     WIN,
-    LOSE
+    LOSE,
+    PLAYERMOVE,
+    AIMOVE
+};
+
+struct Cell
+{
+    Figure* FigureInCell = nullptr;
+    int CellWeight;
 };

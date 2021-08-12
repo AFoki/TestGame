@@ -142,6 +142,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AIBasic.cpp" />
     <ClCompile Include="BlackFigure.cpp" />
     <ClCompile Include="Desk.cpp" />
     <ClCompile Include="Figure.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="WhiteFigure.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIBasic.h" />
     <ClInclude Include="BlackFigure.h" />
     <ClInclude Include="Desk.h" />
     <ClInclude Include="Figure.h" />

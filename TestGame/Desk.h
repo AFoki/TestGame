@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include "Figure.h"
 #include "Types.h"
 #include <SFML/Graphics.hpp>
@@ -8,17 +9,12 @@ class Desk
 private:
 	Texture PossibleMoveTexture;
 	GameStates *CurrentState;
-	class Cell
-	{
-	public:
-		Figure* FigureInCell = nullptr;
-		int CellWeght;
-	};
-	Cell Field[8][8];
-	Figure* FiguresArray[18];
+	std::array<std::array<Cell*, 8>, 8> Field;
+	std::array<Figure*, 18> FiguresArray;
 	Figure* PossibleMovements[4];
 	Figure* ActiveFigure = nullptr;
 	Figure* FigureUnderMouse = nullptr;
+
 public:
 	Desk(Texture& TExtureForWhite, Texture& TExtureForBlack, GameStates& BasicState);
 	~Desk();
@@ -27,14 +23,16 @@ public:
 	void MouseClick(int X, int Y);
 	void ClearSelection();
 	void CheckWinLose();
+	std::array<std::array<Cell*, 8>, 8>* GetField();
+	std::array<Figure*, 18>* GetFiguresArray();
 private:
 	void CalculatePossibleMove(const Figure* FigureToCalculate);
+public:
 	int CalculatePossibleMove(const Figure* FigureToCalculate, int& NumberOfMoves);
+private:
 	void ClearPossibleMove();
+public:
 	void FigureMove(Figure* MovableFigure, const Vector2i &NewCoordinates);
-	void InitAI();
-	void AIMove();
-	int CalculateWorthOfDesk(Figure* MovableFigure, const Vector2i& NewCoordinates);
-	int CheckMove(Figure* FigureToCheck, Vector2i& FigurePosition, int X, int Y, int& CurrentWorth, std::map<int, std::pair<Figure*, Vector2i>>& Statistic);
+	void FigureMove(std::pair<Figure*, const Vector2i&> NewPosition);
 };
 
