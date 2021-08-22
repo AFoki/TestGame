@@ -17,11 +17,11 @@ int main()
  // Preprocessor
     RenderWindow window(VideoMode(1000, 1000), "SFML works!");
     Texture DeskTexture;
-    DeskTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\ChessDesk.png");
+    DeskTexture.loadFromFile("..\\TestGame\\src\\Texture\\ChessDesk.png");
     Texture WhiteFigureTexture;
-    WhiteFigureTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\FigureWhite.png");
+    WhiteFigureTexture.loadFromFile("..\\TestGame\\src\\Texture\\FigureWhite.png");
     Texture BlackFigureTexture;
-    BlackFigureTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\FigureBlack.png");
+    BlackFigureTexture.loadFromFile("..\\TestGame\\src\\Texture\\FigureBlack.png");
     Sprite DeskSprite(DeskTexture);
     DeskSprite.move(100.0f, 100.0f);
     Vector2i MousePosition;

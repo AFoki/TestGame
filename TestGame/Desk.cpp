@@ -12,7 +12,7 @@
 Desk::Desk(Texture& TExtureForWhite, Texture& TExtureForBlack, GameStates& BasicState)
 {
 	CurrentState = &BasicState;
-	PossibleMoveTexture.loadFromFile("C:\\Users\\Foki\\source\\repos\\TestGame\\TestGame\\src\\Texture\\PossibleCell.png");
+	PossibleMoveTexture.loadFromFile("..\\TestGame\\src\\Texture\\PossibleCell.png");
 	int IdInArray{ 0 };
 	for (int i = 0; i < 8; i++)
 	{
